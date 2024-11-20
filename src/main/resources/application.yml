@@ -12,3 +12,5 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+file:
+  upload-dir: src/main/uploads/
