@@ -2,13 +2,15 @@ package com.assignmentManagementSys.rest_demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name="accounts")
 public class Account {
 
     @Id
     @Column(nullable = false)
-    private String id;
+    private UUID id;
 
     @Column(name="first_name", nullable = false)
     private String firstName;
@@ -23,11 +25,11 @@ public class Account {
     private String password;
 
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class HealthCheckController implements ErrorController {
 
     @Autowired
-    private DataSource dataSource; // To access DB connection
+    private DataSource dataSource;
 
     @GetMapping
     public ResponseEntity<String> healthCheck() {

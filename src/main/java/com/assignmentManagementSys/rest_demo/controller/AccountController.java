@@ -38,8 +38,8 @@ public class AccountController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<List<String>> uploadAccounts(@RequestParam("file") MultipartFile file) {
-        List<String> accountsIds = new ArrayList<>();
+    public ResponseEntity<List<UUID>> uploadAccounts(@RequestParam("file") MultipartFile file) {
+        List<UUID> accountsIds = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             String line;
             boolean isHeader = true;
@@ -54,7 +54,7 @@ public class AccountController {
                 String[] fields = line.split(",");
                 if (fields.length == 4) {
                     Account account = new Account();
-                    account.setId(UUID.randomUUID().toString()); // Generate a unique UUID for the account ID
+                    account.setId(UUID.randomUUID()); // Generate a unique UUID for the account ID
                     account.setFirstName(fields[0]);
                     account.setLastName(fields[1]);
                     account.setEmail(fields[2]);
@@ -75,8 +75,8 @@ public class AccountController {
     }
 
     @PostMapping("/upload-from-folder")
-    public ResponseEntity<List<String>> uploadAccountsFromFolder() {
-        List<String> accountIds = new ArrayList<>();
+    public ResponseEntity<List<UUID>> uploadAccountsFromFolder() {
+        List<UUID> accountIds = new ArrayList<>();
         // Define the path to the folder where the CSV file is stored
         File folder = new File(uploadDir);
         File file = new File(folder, "users.csv");
@@ -99,7 +99,7 @@ public class AccountController {
                 String[] fields = line.split(",");
                 if (fields.length == 4) {
                     Account account = new Account();
-                    account.setId(UUID.randomUUID().toString()); // Generate a unique UUID for the account ID
+                    account.setId(UUID.randomUUID()); // Generate a unique UUID for the account ID
                     account.setFirstName(fields[0]);
                     account.setLastName(fields[1]);
                     account.setEmail(fields[2]);
@@ -110,7 +110,7 @@ public class AccountController {
 
                     // Save the account to the database
                     Account savedAccount = accountRepository.save(account);
-                    accountIds.add(savedAccount.getId()); // Add the account ID to the list
+                    accountIds.add(savedAccount.getId());
                 }
             }
         } catch (IOException e) {
@@ -127,7 +127,7 @@ public class AccountController {
 //    }
 
     @GetMapping("{id}")
-    public ResponseEntity<Account> getAccount(@PathVariable String id) {
+    public ResponseEntity<Account> getAccount(@PathVariable UUID id) {
         Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account with id " + id + " not found"));
         return ResponseEntity.ok(account);
     }
